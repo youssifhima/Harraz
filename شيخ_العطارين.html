@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+<meta name="theme-color" content="#F6F1E4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>شيخ العطارين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Rakkas&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+
+/* =========================================================
+   لوحة الألوان (يمكن تغييرها من هنا بسهولة)
+   ========================================================= */
+:root{
+  --ink:#2B1D14;          /* بني غامق - خشب الرفوف */
+  --parchment:#F6F1E4;    /* لون ورق هادئ فاتح */
+  --parchment-2:#EDE6D2;  /* درجة أغمق قليلاً للبطاقات */
+  --olive:#5C6B3B;        /* أخضر الأعشاب */
+  --olive-dark:#43502A;
+  --turmeric:#B6742A;     /* أصفر التوابل / الكركم */
+  --paprika:#8C3B2B;      /* أحمر البابريكا - للتمييز فقط */
+  --cream:#FBF6EA;
+  --line: rgba(43,29,20,0.15);
+  --shadow-soft: 0 3px 10px rgba(43,29,20,0.07);
+  --shadow-lift: 0 8px 18px rgba(43,29,20,0.12);
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html,body{margin:0;padding:0;}
+body{
+  background:var(--parchment);
+  background-image: radial-gradient(circle at 50% 0%, rgba(182,116,42,0.05), transparent 55%);
+  color:var(--ink);
+  font-family:'Cairo', sans-serif;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  overflow-x:hidden;
+  padding-left:var(--sal); padding-right:var(--sar);
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+}
+
+h1,h2,h3, .display{
+  font-family:'Rakkas', serif;
+  font-weight:400;
+  letter-spacing:0.5px;
+}
+
+/* =========================================================
+   الشريط العلوي - بدون عنوان كبير، فقط شعار وتبويبات
+   ========================================================= */
+header{
+  position:sticky; top:0; z-index:50;
+  background:linear-gradient(180deg, var(--parchment) 85%, rgba(243,234,211,0));
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+  padding:calc(14px + var(--sat)) 18px 6px;
+}
+.hero-brand{
+  text-align:center; padding:6px 18px 4px;
+}
+.hero-title{
+  font-family:'Aref Ruqaa', serif; font-weight:700;
+  font-size:clamp(3rem, 9vw, 5rem); line-height:1;
+  margin:0; color:var(--ink);
+  text-shadow:1px 1px 0 rgba(182,116,42,0.25);
+}
+.hero-sub{
+  font-family:'Cairo'; font-weight:600; font-size:0.95rem;
+  color:var(--turmeric); margin:6px 0 0; letter-spacing:0.5px;
+}
+.top-row{
+  display:flex; align-items:center; justify-content:space-between;
+  max-width:1080px; margin:8px auto 0;
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+}
+.stamp{
+  width:44px; height:44px; flex:none;
+}
+.brand-name{
+  font-family:'Rakkas', serif; font-size:1.15rem; color:var(--ink);
+}
+.share-btn{
+  border:2px solid var(--ink); background:var(--cream); color:var(--ink);
+  font-family:'Cairo'; font-weight:700; font-size:0.85rem;
+  padding:9px 18px; border-radius:30px; cursor:pointer;
+  display:flex; align-items:center; gap:6px;
+  box-shadow:var(--shadow-soft);
+  touch-action:manipulation;
+  transition:transform .15s ease, background .2s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  .share-btn:hover{ background:var(--turmeric); color:var(--cream); transform:translateY(-1px); border-color:var(--turmeric); }
+}
+.share-btn:active{ transform:scale(0.96); background:var(--turmeric); color:var(--cream); border-color:var(--turmeric); }
+
+/* تبويبات الصفحات */
+nav.tabs{
+  max-width:1080px; margin:14px auto 0;
+  display:flex; gap:10px; justify-content:center;
+  border-bottom:2px solid var(--line);
+  padding-bottom:0;
+}
+nav.tabs{ overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+nav.tabs::-webkit-scrollbar{ display:none; }
+nav.tabs button{
+  font-family:'Cairo'; font-weight:700; font-size:0.95rem;
+  background:none; border:none; cursor:pointer;
+  color:var(--ink); opacity:0.55;
+  padding:10px 8px 14px; position:relative;
+  display:flex; align-items:center; gap:8px;
+  white-space:nowrap; touch-action:manipulation;
+  min-height:44px;
+  transition:opacity .2s ease;
+}
+nav.tabs button:active{ opacity:0.85; }
+nav.tabs button .dot{
+  width:8px; height:8px; border-radius:50%; background:currentColor; opacity:0.5;
+}
+nav.tabs button.active{ opacity:1; }
+nav.tabs button.active::after{
+  content:''; position:absolute; right:0; left:0; bottom:-2px; height:3px;
+  background:var(--paprika); border-radius:3px;
+}
+nav.tabs button[data-tab="oils"].active{ color:var(--turmeric); }
+nav.tabs button[data-tab="oils"].active::after{ background:var(--turmeric); }
+nav.tabs button[data-tab="herbs"].active{ color:var(--olive-dark); }
+nav.tabs button[data-tab="herbs"].active::after{ background:var(--olive); }
+nav.tabs button[data-tab="nuts"].active{ color:var(--paprika); }
+nav.tabs button[data-tab="nuts"].active::after{ background:var(--paprika); }
+
+/* =========================================================
+   المحتوى الرئيسي
+   ========================================================= */
+main{ max-width:1080px; margin:0 auto; padding:26px 18px 70px; }
+
+.page{ display:none; animation:fadeUp .35s ease; }
+.page.active{ display:block; }
+@keyframes fadeUp{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+.page-head{
+  display:flex; align-items:center; gap:14px; margin-bottom:22px;
+}
+.page-head .stamp-lg{ width:56px; height:56px; flex:none; }
+.page-head h2{ font-size:2.3rem; margin:0; }
+.page-head p{ margin:2px 0 0; font-size:0.9rem; opacity:0.7; }
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  gap:18px;
+  margin-bottom:32px;
+}
+.sub-head{
+  font-family:'Rakkas'; font-weight:400; font-size:1.5rem;
+  color:var(--ink); margin:0 0 16px; padding-right:14px;
+  border-right:4px solid var(--turmeric);
+  display:flex; align-items:center; gap:12px;
+}
+.sub-head::after{
+  content:''; flex:1; height:1px;
+  background:linear-gradient(to left, var(--line), transparent);
+}
+
+.card{
+  background:var(--cream);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  transition:transform .18s ease;
+  position:relative;
+  cursor:pointer;
+  box-shadow:var(--shadow-soft);
+  touch-action:manipulation;
+  contain:layout paint;
+}
+.card::after{
+  content:''; position:absolute; inset:5px; border:1px solid rgba(43,29,20,0.07);
+  border-radius:9px; pointer-events:none;
+}
+@media (hover:hover) and (pointer:fine){
+  .card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-lift); }
+  .card:hover img{ transform:scale(1.05); }
+  .card:hover .img-wrap svg{ transform:scale(1.06) rotate(-2deg); }
+}
+.card:active{ transform:scale(0.97); }
+.card .img-wrap{
+  aspect-ratio:1/1; overflow:hidden; background:var(--parchment-2);
+  display:flex; align-items:center; justify-content:center;
+}
+.card img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .4s ease;
+}
+.card .img-wrap svg{ width:62%; height:62%; transition:transform .4s ease; }
+.card .info{ padding:12px 14px 14px; text-align:center; }
+.card .name{ font-family:'Cairo'; font-weight:700; font-size:1rem; margin:0; }
+.card .more{ display:block; margin-top:5px; font-size:0.72rem; opacity:0.55; }
+.card .tag{
+  display:inline-block; margin-top:6px;
+  font-size:0.72rem; padding:2px 10px; border-radius:20px;
+  background:rgba(0,0,0,0.05); opacity:0.7;
+}
+
+/* =========================================================
+   نافذة تفاصيل المنتج (الفوائد / الاستخدام / موانع الاستخدام)
+   ========================================================= */
+.detail-modal{
+  background:var(--cream); border-radius:20px; padding:0;
+  max-width:440px; width:100%; text-align:right;
+  border:2px solid var(--ink);
+  max-height:86vh; max-height:86dvh;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  box-shadow:var(--shadow-lift);
+}
+.detail-head{
+  display:flex; align-items:center; gap:14px;
+  padding:22px 22px 16px; border-bottom:2px solid var(--line);
+  position:sticky; top:0; background:var(--cream); z-index:2;
+}
+.detail-head .d-icon{ width:56px; height:56px; flex:none; background:var(--parchment-2); border-radius:12px; padding:6px; }
+.detail-head h3{ margin:0; font-size:1.75rem; }
+.detail-body{ padding:18px 22px 8px; }
+.detail-section{ margin-bottom:18px; }
+.detail-section h4{
+  font-family:'Cairo'; font-weight:800; font-size:0.95rem; margin:0 0 8px;
+  display:flex; align-items:center; gap:8px;
+}
+.detail-section h4 .sw{ width:10px; height:10px; border-radius:50%; flex:none; }
+.detail-section ul{ margin:0; padding-right:20px; font-size:0.88rem; line-height:1.85; }
+.detail-section p{ margin:0; font-size:0.88rem; line-height:1.85; }
+.detail-section.benefits h4 .sw{ background:var(--olive); }
+.detail-section.usage h4 .sw{ background:var(--turmeric); }
+.detail-section.caution h4 .sw{ background:var(--paprika); }
+.detail-section.caution{ background:rgba(140,59,43,0.07); border-radius:10px; padding:12px 14px; }
+.detail-note{
+  font-size:0.72rem; opacity:0.6; padding:0 22px 20px; line-height:1.7;
+}
+.detail-modal .close{
+  display:block; margin:0 22px 22px auto; border:none; background:var(--ink); color:var(--cream);
+  font-family:'Cairo'; font-weight:700; padding:10px 24px; border-radius:24px;
+  cursor:pointer; font-size:0.85rem; touch-action:manipulation;
+  transition:transform .15s ease, background .2s ease;
+}
+.detail-modal .close:active{ transform:scale(0.95); background:var(--paprika); }
+
+/* =========================================================
+   نافذة QR
+   ========================================================= */
+.overlay{
+  position:fixed; inset:0; background:rgba(43,29,20,0.55);
+  display:none; align-items:center; justify-content:center; z-index:100;
+  padding:20px;
+  padding-top:calc(20px + var(--sat)); padding-bottom:calc(20px + var(--sab));
+}
+.overlay.show{ display:flex; animation:fadeIn .2s ease; }
+@keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+.modal{
+  background:var(--cream); border-radius:18px; padding:28px 26px;
+  max-width:320px; width:100%; text-align:center;
+  border:2px solid var(--ink);
+}
+.modal h3{ margin:0 0 6px; font-size:1.3rem; }
+.modal p{ font-size:0.85rem; opacity:0.75; margin:0 0 16px; line-height:1.6; }
+#qrcode{ display:flex; justify-content:center; margin:0 auto 14px; }
+#qrcode img, #qrcode canvas{ border-radius:10px; border:6px solid #fff; }
+.modal .close{
+  margin-top:6px; border:none; background:var(--ink); color:var(--cream);
+  font-family:'Cairo'; font-weight:700; padding:10px 24px; border-radius:24px;
+  cursor:pointer; font-size:0.85rem; touch-action:manipulation;
+  transition:transform .15s ease, background .2s ease;
+}
+.modal .close:active{ transform:scale(0.95); background:var(--paprika); }
+
+footer{
+  text-align:center; padding:20px; padding-bottom:calc(20px + var(--sab));
+  font-size:0.78rem; opacity:0.55;
+}
+
+@media (max-width:480px){
+  .brand-name{ font-size:0.85rem; }
+  nav.tabs{ justify-content:flex-start; }
+  nav.tabs button{ font-size:0.82rem; padding:8px 8px 12px; }
+  .page-head h2{ font-size:1.7rem; }
+  .sub-head{ font-size:1.2rem; }
+  .grid{ grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; }
+  .card .info{ padding:10px 8px 12px; }
+  .card .name{ font-size:0.9rem; }
+}
+
+@media (max-width:360px){
+  .hero-title{ font-size:2.6rem; }
+  .grid{ grid-template-columns:repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero-brand">
+    <h1 class="hero-title">حَرَّاز</h1>
+    <p class="hero-sub">شيخ العطارين · زيوت وأعشاب ومستحضرات طبيعية</p>
+  </div>
+  <div class="top-row">
+    <div class="brand">
+      <svg class="stamp" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#2B1D14" stroke-width="3"/>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#B6742A" stroke-width="1.5"/>
+        <path d="M50 22 C40 32, 34 42, 34 54 C34 64 41 71 50 71 C59 71 66 64 66 54 C66 42 60 32 50 22 Z" fill="#5C6B3B" opacity="0.85"/>
+        <line x1="50" y1="71" x2="50" y2="80" stroke="#5C6B3B" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-name">منتجات طبيعية 100%</span>
+    </div>
+    <button class="share-btn" onclick="openQR()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20v.01"/></svg>
+      مشاركة
+    </button>
+  </div>
+
+  <nav class="tabs">
+    <button data-tab="oils" class="active" onclick="showPage('oils')"><span class="dot"></span> الزيوت الطبيعية</button>
+    <button data-tab="herbs" onclick="showPage('herbs')"><span class="dot"></span> الأعشاب</button>
+    <button data-tab="nuts" onclick="showPage('nuts')"><span class="dot"></span> مكسرات وبن</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- صفحة 1: الزيوت -->
+  <section class="page active" id="page-oils">
+    <div class="page-head">
+      <svg class="stamp-lg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="#2B1D14" stroke-width="3"/><path d="M50 20 C36 34,30 46,30 58 C30 70 39 78 50 78 C61 78 70 70 70 58 C70 46 64 34 50 20 Z" fill="#B6742A"/></svg>
+      <div>
+        <h2>الزيوت الطبيعية</h2>
+        <p>زيوت نقية 100% ومنتجات حراز الطبيعية</p>
+      </div>
+    </div>
+
+    <h3 class="sub-head">زيوت العناية بالبشرة والجسم</h3>
+    <div class="grid" id="grid-oils-body"></div>
+
+    <h3 class="sub-head">زيوت العناية بالشعر ونموه</h3>
+    <div class="grid" id="grid-oils-hair"></div>
+
+    <h3 class="sub-head">الصابون الطبيعي</h3>
+    <div class="grid" id="grid-soaps"></div>
+
+    <h3 class="sub-head">الشامبوهات وكريمات الشعر</h3>
+    <div class="grid" id="grid-haircare"></div>
+  </section>
+
+  <!-- صفحة 2: الأعشاب -->
+  <section class="page" id="page-herbs">
+    <div class="page-head">
+      <svg class="stamp-lg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="#2B1D14" stroke-width="3"/><path d="M50 78 L50 30 M50 30 L38 20 M50 30 L62 20 M50 45 L36 35 M50 45 L64 35 M50 60 L38 52 M50 60 L62 52" stroke="#5C6B3B" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      <div>
+        <h2>الأعشاب الطبيعية</h2>
+        <p>أعشاب مجففة ومنتقاة بعناية</p>
+      </div>
+    </div>
+    <div class="grid" id="grid-herbs"></div>
+  </section>
+
+  <!-- صفحة 3: مكسرات وبن -->
+  <section class="page" id="page-nuts">
+    <div class="page-head">
+      <svg class="stamp-lg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="#2B1D14" stroke-width="3"/><circle cx="38" cy="42" r="9" fill="#8C3B2B"/><circle cx="62" cy="42" r="9" fill="#8C3B2B"/><circle cx="50" cy="62" r="9" fill="#8C3B2B"/></svg>
+      <div>
+        <h2>مكسرات وبن</h2>
+        <p>مكسرات فريش وبن مختص محمّص طازة</p>
+      </div>
+    </div>
+    <div class="grid" id="grid-nuts"></div>
+  </section>
+
+</main>
+
+<footer>شيخ العطارين — كل الحقوق محفوظة</footer>
+
+<!-- نافذة تفاصيل المنتج -->
+<div class="overlay" id="detailOverlay">
+  <div class="detail-modal" id="detailModal"></div>
+</div>
+
+<!-- نافذة QR -->
+<div class="overlay" id="qrOverlay">
+  <div class="modal">
+    <h3>شارك المتجر</h3>
+    <p>امسح الكود بالكاميرا لفتح الصفحة مباشرة، بدون أي خطوات إضافية</p>
+    <div id="qrcode"></div>
+    <button class="close" onclick="closeQR()">إغلاق</button>
+  </div>
+</div>
+
+<script>
+const PRODUCTS = {
+  oils_body: [
+    { name:"زيت جوز الهند البكر", icon:"bottle", color:"#E7DEC2",
+      info:{ benefits:["مرطب طبيعي قوي للبشرة والشعر","يُستخدم كمزيل مكياج طبيعي","صالح للطبخ الصحي المعتدل"],
+             usage:"يُدهن على البشرة أو الشعر مباشرة، أو يُستخدم في الطبخ بكمية معتدلة بدلًا من الزيوت المهدرجة.",
+             caution:["قد يسدّ المسام لأصحاب البشرة الدهنية أو المعرضة لحب الشباب","الإفراط في تناوله قد يرفع الكوليسترول لدى بعض الأشخاص"] } },
+    { name:"زيت اللوز الحلو", icon:"bottle", color:"#C9A26B",
+      info:{ benefits:["يرطب البشرة الجافة والحساسة","يهدئ حكة فروة الرأس","غني بفيتامين E"],
+             usage:"يُدلّك به الجسم أو فروة الرأس مباشرة، ويمكن استخدامه كزيت حامل لتخفيف الزيوت العطرية.",
+             caution:["يُمنع لمن لديه حساسية من المكسرات","يُفضّل تجربته على مساحة صغيرة أولًا"] } },
+    { name:"زيت الأفوكادو", icon:"bottle", color:"#7A8C4F",
+      info:{ benefits:["مرطب غني للبشرة الجافة جدًا","يغذي الشعر التالف والمتقصف","يمتص بسهولة نسبيًا"],
+             usage:"يُستخدم كزيت تدليك للجسم أو كقناع مغذٍ للشعر قبل الاستحمام بساعة.",
+             caution:["قد يترك ملمسًا دهنيًا لأصحاب البشرة الدهنية","يُحفظ بعيدًا عن الحرارة المباشرة"] } },
+    { name:"زيت الزيتون البكر الممتاز", icon:"bottle", color:"#5C6B3B",
+      info:{ benefits:["يرطب البشرة والشعر ويغذيهما","غني بمضادات الأكسدة","مفيد في الطبخ الصحي والسلطات"],
+             usage:"يُستخدم في الطبخ وتحضير السلطات، أو يُدلّك به الجلد وفروة الرأس مباشرة قبل الاستحمام بنصف ساعة.",
+             caution:["يُحفظ بعيدًا عن الحرارة المباشرة وأشعة الشمس","لا يغني عن استشارة الطبيب لأي حالة جلدية مزمنة"] } },
+    { name:"زيت حبة البركة", icon:"bottle", color:"#43502A",
+      info:{ benefits:["مضاد طبيعي للالتهابات","يُستخدم تقليديًا لدعم المناعة","يفيد فروة الرأس والبشرة"],
+             usage:"يُؤخذ ملعقة صغيرة يوميًا مع العسل، أو يُدلّك به الجلد وفروة الرأس.",
+             caution:["يُمنع للحوامل دون استشارة الطبيب","قد يتفاعل مع أدوية الضغط والسكر","يُنصح بالاعتدال في الكمية"] } },
+    { name:"زيت السمسم", icon:"bottle", color:"#8C5A2B",
+      info:{ benefits:["غني بمضادات الأكسدة","يُستخدم تقليديًا لتدليك الجسم","مفيد في الطبخ الآسيوي والمتوسطي"],
+             usage:"يُستخدم للطبخ على نار هادئة، أو للتدليك الموضعي للجسم والشعر.",
+             caution:["قد يسبب حساسية لمن لديه حساسية من السمسم","يُفضّل عدم تسخينه بحرارة عالية جدًا لحفظ قيمته الغذائية"] } },
+    { name:"زيت لب القرع", icon:"bottle", color:"#D9862B",
+      info:{ benefits:["غني بالأحماض الدهنية المفيدة","يدعم صحة فروة الرأس","يُستخدم في العناية بالبشرة الناضجة"],
+             usage:"يُستخدم موضعيًا على فروة الرأس أو البشرة، ويمكن إضافته للطبخ بكميات قليلة.",
+             caution:["يُحفظ في مكان بارد بعيدًا عن الضوء","قد يسبب حساسية نادرة لدى البعض"] } },
+    { name:"زيت الأرجان", icon:"bottle", color:"#C9962F",
+      info:{ benefits:["يغذي الشعر ويقلل من تقصفه","يرطب البشرة ويمنحها نضارة","غني بفيتامين E"],
+             usage:"ضع نقاطًا قليلة على أطراف الشعر أو الوجه بعد الغسيل، ويمكن دمجه مع كريم الترطيب اليومي.",
+             caution:["قد يسبب حساسية نادرة لمن لديه حساسية من المكسرات","يُفضّل تجربته على مساحة صغيرة من الجلد أولًا"] } },
+    { name:"زيت الجوجوبا", icon:"bottle", color:"#C9962F",
+      info:{ benefits:["قريب الشبه بزيوت الجلد الطبيعية","يوازن إفراز الدهون","يرطب دون ثقل على البشرة"],
+             usage:"يُستخدم يوميًا على الوجه أو الشعر كمرطب خفيف.",
+             caution:["نادرًا ما يسبب حساسية","يُفضّل تجربته على مساحة صغيرة أولًا"] } },
+    { name:"زيت اللافندر", icon:"bottle", color:"#8A72A8",
+      info:{ benefits:["يساعد على الاسترخاء والنوم الهادئ","رائحته مهدئة للأعصاب والتوتر","يُستخدم في العطور والتدليك"],
+             usage:"ضع نقاطًا قليلة على المخدة أو في جهاز البخار (الديفيوزر)، أو خفّفه بزيت ناقل قبل تدليك الجسم.",
+             caution:["لا يُستخدم مباشرة على الجلد دون تخفيف","يُمنع تناوله عن طريق الفم","يُنصح بالحذر مع الأطفال الصغار والحوامل"] } },
+    { name:"زيت الورد", icon:"flower", color:"#C97A9A",
+      info:{ benefits:["يهدئ البشرة الحساسة","رائحته مريحة للأعصاب","يُستخدم في العناية بالبشرة الجافة"],
+             usage:"يُضاف قليل منه لكريم الترطيب، أو يُستخدم في جهاز البخار للاسترخاء.",
+             caution:["لا يُستخدم مباشرة على الجلد دون تخفيف","يُنصح بالحذر أثناء الحمل"] } },
+    { name:"زيت بذر العنب", icon:"bottle", color:"#8A5A6E",
+      info:{ benefits:["خفيف الملمس وسريع الامتصاص","غني بمضادات الأكسدة","مناسب للبشرة الدهنية والمختلطة"],
+             usage:"يُستخدم كمرطب يومي للوجه أو كزيت حامل للتدليك.",
+             caution:["قد يسبب حساسية نادرة لمن لديه حساسية من العنب"] } },
+    { name:"زيت اللبان الذكر", icon:"bottle", color:"#C08A4E",
+      info:{ benefits:["يُستخدم تقليديًا للعناية ببشرة الوجه","رائحته مهدئة للأعصاب","يُستخدم في العطور الطبيعية"],
+             usage:"يُضاف قليل منه لكريم الوجه، أو يُستخدم في الديفيوزر للاسترخاء.",
+             caution:["يُخفف قبل وضعه على الجلد مباشرة","يُنصح بالحذر أثناء الحمل"] } },
+    { name:"زيت الغار", icon:"bottle", color:"#556B2F",
+      info:{ benefits:["يُستخدم تقليديًا لتقوية الشعر","رائحته منعشة","له خصائص منظفة خفيفة"],
+             usage:"يُدلّك به فروة الرأس قبل الغسيل بنصف ساعة.",
+             caution:["يُمنع تناوله عن طريق الفم","قد يسبب حساسية جلدية لدى البعض"] } },
+    { name:"زيت البرغموت", icon:"bottle", color:"#D9A441",
+      info:{ benefits:["رائحته منعشة ومنشطة للمزاج","يُستخدم في العطور الطبيعية","يفيد في تدليك الاسترخاء"],
+             usage:"يُضاف لجهاز البخار أو يُخفف بزيت حامل للتدليك.",
+             caution:["يزيد حساسية الجلد لأشعة الشمس — يُجنّب التعرض للشمس بعد استخدامه","يُخفف قبل الاستخدام الموضعي"] } },
+    { name:"زيت الليمون", icon:"bottle", color:"#D9C441",
+      info:{ benefits:["منعش ومنشط","يُستخدم للعناية بالبشرة الباهتة","رائحته منظفة"],
+             usage:"يُضاف قليل منه لكريمات العناية، أو يُستخدم في الديفيوزر.",
+             caution:["يزيد حساسية الجلد للشمس","لا يُستخدم مركّزًا مباشرة على البشرة"] } },
+    { name:"زيت شجرة الشاي", icon:"bottle", color:"#6B8E23",
+      info:{ benefits:["مضاد طبيعي للبكتيريا","يُستخدم للعناية بالبشرة المعرضة لحب الشباب","منعش لفروة الرأس"],
+             usage:"يُخفف بزيت حامل ويوضع موضعيًا على مناطق البشرة المطلوبة.",
+             caution:["لا يُستخدم مركّزًا مباشرة على الجلد","يُمنع تناوله عن طريق الفم"] } },
+    { name:"زيت الكافور", icon:"bottle", color:"#7B9E89",
+      info:{ benefits:["يُستخدم تقليديًا لتنشيط الجهاز التنفسي عند الاستنشاق","منعش لفروة الرأس","يُستخدم في التدليك العضلي"],
+             usage:"يُستنشق برائحته أو يُخفف بزيت حامل ويُدلّك به منطقة الصدر أو العضلات.",
+             caution:["يُمنع استخدامه للأطفال الصغار والرضع","يُمنع تناوله عن طريق الفم","يُخفف جيدًا قبل الاستخدام الموضعي"] } },
+  ],
+  oils_hair: [
+    { name:"زيت إكليل الجبل (روزماري)", icon:"bottle", color:"#5C6B3B",
+      info:{ benefits:["يُستخدم تقليديًا لتنشيط بصيلات الشعر","يقوي الشعر ويقلل تساقطه","منعش لفروة الرأس"],
+             usage:"يُدلّك به فروة الرأس 2-3 مرات أسبوعيًا قبل الغسيل بساعة.",
+             caution:["يُنصح بالحذر للحوامل","قد يسبب تهيجًا خفيفًا لفروة الرأس الحساسة"] } },
+    { name:"زيت الخروع", icon:"bottle", color:"#B6742A",
+      info:{ benefits:["يُستخدم تقليديًا لتقوية الشعر والرموش","يرطب الجلد الجاف جدًا","له استخدامات تقليدية كملين خفيف"],
+             usage:"يُدلّك به فروة الرأس أو الرموش ليلاً ويُشطف في الصباح. يُفضّل الاستخدام الموضعي فقط ما لم يصفه مختص.",
+             caution:["لا يُنصح بتناوله عن طريق الفم دون إشراف طبي","يُمنع على الحوامل دون استشارة الطبيب","قد يسبب حساسية جلدية — جرّبه على مساحة صغيرة أولًا"] } },
+    { name:"زيت الثوم", icon:"bottle", color:"#E8DFC0",
+      info:{ benefits:["يُستخدم تقليديًا لتقوية الشعر وتحفيز نموه","مضاد طبيعي للبكتيريا الموضعية"],
+             usage:"يُدلّك به فروة الرأس ويُترك لمدة 20-30 دقيقة ثم يُغسل جيدًا.",
+             caution:["قد تكون رائحته قوية وتحتاج غسلًا متكررًا","قد يسبب تهيجًا لفروة الرأس الحساسة"] } },
+    { name:"زيت الزنجبيل", icon:"bottle", color:"#C08A4E",
+      info:{ benefits:["يُستخدم تقليديًا لتنشيط الدورة الدموية بفروة الرأس","يفيد في العناية بالشعر الخفيف"],
+             usage:"يُخفف بزيت حامل ويُدلّك به فروة الرأس قبل الغسيل.",
+             caution:["قد يسبب إحساسًا بالحرارة أو التهيج","يُجرّب على مساحة صغيرة أولًا"] } },
+    { name:"زيت بذور الخردل", icon:"bottle", color:"#B6742A",
+      info:{ benefits:["يُستخدم تقليديًا لتحفيز نمو الشعر","يدفئ فروة الرأس وينشط الدورة الدموية"],
+             usage:"يُخفف بزيت حامل ويُدلّك به فروة الرأس مرة أو مرتين أسبوعيًا.",
+             caution:["قوي التركيز وقد يسبب تهيجًا","يُختبر على مساحة صغيرة أولًا"] } },
+    { name:"زيت بذور الحلبة", icon:"bottle", color:"#C9A26B",
+      info:{ benefits:["يُستخدم تقليديًا لتغذية فروة الرأس","يفيد في العناية بالشعر الضعيف"],
+             usage:"يُدلّك به فروة الرأس ويُترك 20 دقيقة ثم يُغسل جيدًا.",
+             caution:["قد تكون رائحته قوية","يُجرّب على مساحة صغيرة أولًا"] } },
+    { name:"زيت النعناع البلدي", icon:"bottle", color:"#5C6B3B",
+      info:{ benefits:["منعش لفروة الرأس","يخفف الشعور بالحكة","رائحته منشطة"],
+             usage:"يُخفف بزيت حامل ويُدلّك به فروة الرأس.",
+             caution:["لا يُستخدم مركّزًا مباشرة على الجلد"] } },
+    { name:"زيت النعناع الفلفلي", icon:"bottle", color:"#4F7942",
+      info:{ benefits:["منعش وينشط فروة الرأس","يخفف الشعور بالدهون الزائدة"],
+             usage:"يُخفف بزيت حامل قبل الاستخدام على فروة الرأس.",
+             caution:["لا يُستخدم مركّزًا","يُجنّب ملامسته للعين"] } },
+    { name:"السبع زيوت للشعر", icon:"bottle", color:"#C97A9A",
+      info:{ benefits:["تركيبة من عدة زيوت طبيعية للعناية بالشعر التالف","يساعد على ترطيب الشعر الجاف والضعيف"],
+             usage:"يُدلّك به الشعر وفروة الرأس ويُترك فترة قبل الغسيل حسب الإرشادات الموضحة على العبوة.",
+             caution:["يُجرّب على مساحة صغيرة أولًا لتفادي الحساسية"] } },
+    { name:"زيت الحية الأصلي", icon:"bottle", color:"#4A6FA5",
+      info:{ benefits:["يُستخدم تقليديًا في العناية بالشعر","يُروَّج له لتغذية فروة الرأس"],
+             usage:"يُستخدم حسب الإرشادات الموضحة على العبوة، غالبًا كزيت موضعي لفروة الرأس.",
+             caution:["المعلومات الخاصة بهذا المنتج تقليدية وغير مثبتة علميًا بشكل كامل","يُنصح بالتجربة على مساحة صغيرة أولًا"] } },
+    { name:"زيت الحشيش الأخضر", icon:"bottle", color:"#6B8E23",
+      info:{ benefits:["يُستخدم تقليديًا لتنشيط نمو الشعر","يحتوي على خلاصة أعشاب وزيوت طبيعية"],
+             usage:"يُدلّك به فروة الرأس بانتظام حسب الإرشادات الموضحة على العبوة.",
+             caution:["يُجرّب على مساحة صغيرة أولًا","يُوقف الاستخدام عند ظهور أي تهيج"] } },
+    { name:"حمام زيت لنمو الشعر", icon:"bottle", color:"#2F3A5C",
+      info:{ benefits:["تركيبة مغذية لفروة الرأس","يُستخدم تقليديًا لدعم كثافة الشعر وتقليل تساقطه"],
+             usage:"يُدلّك به فروة الرأس ويُترك حسب المدة الموضحة على العبوة ثم يُغسل.",
+             caution:["النتائج تختلف من شخص لآخر ولا تُعتبر بديلًا عن استشارة طبيب الجلدية عند التساقط الشديد"] } },
+    { name:"زيت الترجيل الهندي", icon:"bottle", color:"#2E7D32",
+      info:{ benefits:["تركيبة تقليدية هندية للعناية بالشعر","يُستخدم لترطيب وتغذية فروة الرأس"],
+             usage:"يُدلّك به فروة الرأس والشعر قبل الغسيل حسب الإرشادات الموضحة على العبوة.",
+             caution:["يُجرّب على مساحة صغيرة أولًا"] } },
+    { name:"مستخلص العرقسوس", icon:"root", color:"#C9A26B",
+      info:{ benefits:["يُستخدم تقليديًا كمهدئ للبشرة","يدخل في بعض تركيبات العناية بالشعر"],
+             usage:"يُستخدم حسب الإرشادات الموضحة على العبوة، غالبًا كإضافة لمستحضرات أخرى.",
+             caution:["يُنصح بالاعتدال في الاستخدام","يُجرّب على مساحة صغيرة أولًا"] } },
+  ],
+  soaps: [
+    { name:"صابون الكاموميل وشجرة الشاي", icon:"soap", color:"#E8DFC0",
+      info:{ benefits:["يهدئ البشرة الحساسة","ينظف بلطف دون تجريد الجلد من زيوته الطبيعية"],
+             usage:"يُستخدم يوميًا لغسل الوجه أو الجسم كصابون طبيعي.",
+             caution:["يُجرّب على مساحة صغيرة أولًا لمن لديه بشرة حساسة جدًا"] } },
+    { name:"صابون اللبان والزيوت الطبيعية", icon:"soap", color:"#D9C08A",
+      info:{ benefits:["يغذي البشرة أثناء التنظيف","رائحته مهدئة للأعصاب"],
+             usage:"يُستخدم للاستحمام اليومي كبديل طبيعي للصابون التجاري.",
+             caution:["يُحفظ في مكان جاف بين الاستخدامات ليدوم أطول"] } },
+    { name:"صابون القهوة", icon:"soap", color:"#6B4A2E",
+      info:{ benefits:["يُستخدم تقليديًا لتقشير البشرة بلطف","ينشط الدورة الدموية السطحية"],
+             usage:"يُستخدم 2-3 مرات أسبوعيًا مع تدليك خفيف للجسم.",
+             caution:["يُجنّب الفرك القوي على البشرة الحساسة"] } },
+    { name:"صابون زيت الزيتون", icon:"soap", color:"#8A9A5C",
+      info:{ benefits:["يرطب البشرة أثناء الغسل","مناسب للاستخدام اليومي حتى للبشرة الجافة"],
+             usage:"يُستخدم يوميًا لغسل الوجه والجسم.",
+             caution:["لا يوجد تنبيه خاص لمعظم أنواع البشرة"] } },
+    { name:"صابون الحنة والصبار", icon:"soap", color:"#B6742A",
+      info:{ benefits:["يهدئ البشرة المتهيجة","يمنحها نعومة بعد الاستخدام"],
+             usage:"يُستخدم للاستحمام اليومي أو كصابون للوجه.",
+             caution:["يُجرّب على مساحة صغيرة أولًا لمن لديه حساسية من الصبار"] } },
+    { name:"صابون اللوز والشوفان", icon:"soap", color:"#C9A26B",
+      info:{ benefits:["يُقشّر البشرة بلطف بفضل حبيبات الشوفان","يرطبها بزيت اللوز"],
+             usage:"يُستخدم مع تدليك خفيف للجسم أو الوجه 2-3 مرات أسبوعيًا.",
+             caution:["يُمنع لمن لديه حساسية من المكسرات"] } },
+    { name:"صابون الفحم الطبيعي", icon:"soap", color:"#3A3A3A",
+      info:{ benefits:["يُستخدم تقليديًا لتنظيف عميق للمسام","مناسب للبشرة الدهنية والمختلطة"],
+             usage:"يُستخدم يوميًا أو كل يومين حسب نوع البشرة.",
+             caution:["قد يكون مجففًا للبشرة الجافة جدًا مع الاستخدام المتكرر"] } },
+  ],
+  haircare: [
+    { name:"شامبو حراز روزماري", icon:"jar", color:"#8A72A8",
+      info:{ benefits:["ينظف الشعر المتساقط والمجهد","يمنحه لمعانًا وحيوية"],
+             usage:"يُستخدم بدلاً من الشامبو العادي، يُدلّك في الشعر المبلل ثم يُشطف جيدًا.",
+             caution:["يُجنّب ملامسته للعين مباشرة"] } },
+    { name:"شامبو حراز حبة البركة", icon:"jar", color:"#2B2B2B",
+      info:{ benefits:["تركيبة خاصة لتنظيف فروة الرأس","يساعد على تخفيف الحكة الخفيفة"],
+             usage:"يُستخدم كشامبو أساسي 2-3 مرات أسبوعيًا.",
+             caution:["يُجرّب على مساحة صغيرة أولًا لمن لديه حساسية"] } },
+    { name:"شامبو حراز جوجوبا", icon:"jar", color:"#5C6B3B",
+      info:{ benefits:["ينظف الشعر الجاف دون تجريده من زيوته","يمنحه نعومة"],
+             usage:"يُستخدم كشامبو يومي أو حسب الحاجة.",
+             caution:["لا يوجد تنبيه خاص لمعظم أنواع الشعر"] } },
+    { name:"شامبو حراز ضد القشرة", icon:"jar", color:"#8B8B8B",
+      info:{ benefits:["يساعد على تقليل ظهور القشرة","ينظف فروة الرأس بعمق"],
+             usage:"يُستخدم 2-3 مرات أسبوعيًا مع تدليك فروة الرأس لمدة دقيقتين قبل الشطف.",
+             caution:["عند استمرار القشرة بشكل شديد يُفضل استشارة طبيب الجلدية"] } },
+    { name:"حمام كريم روزماري لتساقط الشعر", icon:"jar", color:"#43502A",
+      info:{ benefits:["تركيبة مكثفة لتغذية الشعر المتساقط","يقوي الشعر من الجذور"],
+             usage:"يُوضع على الشعر المغسول ويُترك 10-15 دقيقة ثم يُشطف جيدًا.",
+             caution:["يُجرّب على مساحة صغيرة أولًا"] } },
+    { name:"حمام كريم بالحنة", icon:"jar", color:"#B6742A",
+      info:{ benefits:["يغذي الشعر ويمنحه لونًا دافئًا خفيفًا","يرطب الشعر الجاف"],
+             usage:"يُوضع على الشعر بعد الغسيل ويُترك 10 دقائق ثم يُشطف.",
+             caution:["قد يُغيّر درجة لون الشعر الفاتح قليلًا","يُجرّب على خصلة صغيرة أولًا"] } },
+    { name:"ماسك حبة البركة للشعر المصبوغ", icon:"jar", color:"#4A2E1E",
+      info:{ benefits:["يغذي الشعر المصبوغ ويحافظ على لمعانه","يرطب الأطراف الجافة"],
+             usage:"يُوضع على الشعر المغسول ويُترك 10-15 دقيقة ثم يُشطف.",
+             caution:["يُجرّب على مساحة صغيرة أولًا"] } },
+    { name:"كريم حمام جوجوبا للشعر الجاف", icon:"jar", color:"#C9962F",
+      info:{ benefits:["يرطب الشعر الجاف بعمق","يقلل من تقصف الأطراف"],
+             usage:"يُوضع على الشعر بعد الغسيل ويُترك 10-15 دقيقة ثم يُشطف جيدًا.",
+             caution:["لا يوجد تنبيه خاص لمعظم أنواع الشعر"] } },
+    { name:"كريم جوجوبا ليف إن للتصفيف", icon:"jar", color:"#7A8C4F",
+      info:{ benefits:["يسهّل تصفيف الشعر","يمنحه مظهرًا لامعًا دون غسل"],
+             usage:"يُوضع كمية صغيرة على الشعر الرطب أو الجاف قبل التصفيف.",
+             caution:["الإفراط في الكمية قد يجعل الشعر يبدو دهنيًا"] } },
+    { name:"كريم ليف إن ضد القشرة", icon:"jar", color:"#8B8B8B",
+      info:{ benefits:["يساعد على تهدئة فروة الرأس","يستخدم دون شطف بين مرات الغسيل"],
+             usage:"يُوضع كمية صغيرة على فروة الرأس والشعر حسب الحاجة.",
+             caution:["عند استمرار القشرة بشكل شديد يُفضل استشارة مختص"] } },
+  ],
+  herbs: [
+    { name:"الينسون", icon:"flower", color:"#B6742A",
+      info:{ benefits:["يهدئ المعدة ويطرد الغازات","يُستخدم تقليديًا لتخفيف السعال","مريح للجهاز الهضمي بعد الأكل"],
+             usage:"تُغلى ملعقة صغيرة منه في كوب ماء لمدة 5 دقائق ويُشرب دافئًا بعد الوجبات.",
+             caution:["الإفراط فيه قد يسبب دوخة خفيفة","يُنصح بالاعتدال للحوامل والمرضعات","قد يتفاعل مع بعض الأدوية الهرمونية"] } },
+    { name:"البابونج", icon:"flower", color:"#D9B04C",
+      info:{ benefits:["يساعد على الاسترخاء والنوم الهادئ","مهدئ لتقلصات المعدة والدورة الشهرية","مضاد طبيعي للالتهابات الخفيفة"],
+             usage:"تُنقع ملعقة صغيرة في ماء مغلي لمدة 5 دقائق ويُشرب دافئًا، ويمكن تكراره 2-3 مرات يوميًا.",
+             caution:["يُمنع لمن لديه حساسية من عائلة الأقحوان (كالبابونج والقطيفة)","قد يتفاعل مع أدوية سيولة الدم","يُنصح بالحذر أثناء الحمل"] } },
+    { name:"النعناع المجفف", icon:"sprig", color:"#5C6B3B",
+      info:{ benefits:["يساعد على الهضم ويخفف الانتفاخ","منعش للفم والتنفس","يهدئ الشعور بالغثيان الخفيف"],
+             usage:"تُغلى ملعقة صغيرة في كوب ماء ويُشرب بعد الأكل، أو يُضاف إلى الشاي الأسود أو الأخضر.",
+             caution:["قد يزيد من أعراض الحموضة عند مرضى ارتجاع المريء","يُفضّل الاعتدال في الكمية اليومية"] } },
+    { name:"الزنجبيل", icon:"root", color:"#C08A4E",
+      info:{ benefits:["يخفف الغثيان ودوار الحركة","يساعد على الهضم","له خصائص مضادة للالتهاب"],
+             usage:"تُغلى شرائح منه في الماء ويُشرب دافئًا، أو يُضاف مطحونًا للطعام والمشروبات.",
+             caution:["قد يتفاعل مع أدوية سيولة الدم","يُنصح بالاعتدال للحوامل ومرضى حصوات المرارة"] } },
+    { name:"الكركم", icon:"powder", color:"#D9862B",
+      info:{ benefits:["مضاد طبيعي للالتهابات","غني بمضادات الأكسدة","يُستخدم تقليديًا لدعم صحة المفاصل"],
+             usage:"يُضاف مطحونًا للطعام، أو يُحل في الحليب الدافئ (المعروف بحليب الكركم) قبل النوم.",
+             caution:["قد يتفاعل مع أدوية سيولة الدم","غير مناسب بكثرة لمرضى حصوات المرارة","الإفراط فيه قد يسبب اضطرابًا خفيفًا بالمعدة"] } },
+    { name:"القرفة", icon:"stick", color:"#8C3B2B",
+      info:{ benefits:["تساعد على تنظيم مستوى السكر في الدم","مضادة للأكسدة","تعطي نكهة ودفء للمشروبات الشتوية"],
+             usage:"تُضاف مطحونة أو كعصا للمشروبات الساخنة والحلويات، أو تُغلى كمشروب دافئ.",
+             caution:["الإفراط فيها قد يؤثر على وظائف الكبد لبعض الأشخاص","يُنصح مرضى السكري بمراقبة الكمية مع الطبيب","يُنصح بالاعتدال أثناء الحمل"] } },
+    { name:"الحلبة", icon:"powder", color:"#C9A26B",
+      info:{ benefits:["تُستخدم تقليديًا لتنشيط الرضاعة الطبيعية","تساعد على فتح الشهية وتهدئة المعدة","تدعم صحة الجهاز الهضمي"],
+             usage:"تُغلى ملعقة صغيرة من بذورها في كوب ماء لعدة دقائق وتُشرب دافئة، وتدخل أيضًا في بعض الأطباق الشعبية.",
+             caution:["قد تخفض سكر الدم، فيُنصح مرضى السكري بالحذر","يُنصح بتجنبها بكميات كبيرة أثناء الحمل إلا تحت إشراف طبي","قد تتفاعل مع أدوية سيولة الدم"] } },
+    { name:"الشمر", icon:"powder", color:"#8FA65C",
+      info:{ benefits:["يطرد الغازات ويخفف الانتفاخ","يهدئ مغص الأطفال الرضّع تقليديًا","يدعم عملية الهضم بعد الوجبات"],
+             usage:"تُغلى ملعقة صغيرة من بذوره في كوب ماء لمدة 5 دقائق وتُشرب دافئة بعد الأكل.",
+             caution:["يُنصح بالاعتدال أثناء الحمل والرضاعة","قد يسبب حساسية لدى من لديهم حساسية من نباتات الفصيلة الخيمية (كالكرفس والشبت)"] } },
+    { name:"الكمون", icon:"powder", color:"#B6742A",
+      info:{ benefits:["يخفف الانتفاخ ويحسّن الهضم","غني بمضادات الأكسدة","نكهته مميزة في الأطباق والمشروبات الدافئة"],
+             usage:"يُضاف مطحونًا للطعام، أو تُنقع بذوره وتُغلى ثم تُشرب كمشروب هضمي بعد الوجبات.",
+             caution:["الإفراط فيه قد يسبب حرقة معدة لبعض الأشخاص","يُنصح بالاعتدال أثناء الحمل"] } },
+    { name:"الزعتر", icon:"sprig", color:"#5C6B3B",
+      info:{ benefits:["يخفف السعال واحتقان الحلق تقليديًا","مضاد طبيعي للبكتيريا","يدعم صحة الجهاز التنفسي"],
+             usage:"يُغلى ملعقة صغيرة منه في كوب ماء ويُشرب دافئًا، أو يُستخدم كبهار في الطعام.",
+             caution:["يُنصح بالاعتدال أثناء الحمل بكميات علاجية مركزة","قد يسبب حساسية لدى بعض الأشخاص"] } },
+    { name:"الميرمية", icon:"sprig", color:"#7A8C4F",
+      info:{ benefits:["تُستخدم تقليديًا لتهدئة التهاب الحلق","تخفف من اضطرابات المعدة الخفيفة","رائحتها منعشة ومهدئة"],
+             usage:"تُنقع ملعقة صغيرة في ماء مغلي 5 دقائق وتُشرب دافئة مرة أو مرتين يوميًا.",
+             caution:["يُمنع الإفراط فيها أثناء الحمل والرضاعة","لا يُنصح باستخدامها المطوّل أو بكميات كبيرة لاحتوائها على مادة الثوجون"] } },
+    { name:"الهيل (الحبهان)", icon:"bean", color:"#6B8E23",
+      info:{ benefits:["يساعد على الهضم ويطرد الغازات","يعطر النفس ويُستخدم مع القهوة تقليديًا","مضاد طبيعي للأكسدة"],
+             usage:"يُضاف مطحونًا أو كحبوب كاملة للقهوة والشاي والحلويات، أو يُغلى بمفرده كمشروب دافئ.",
+             caution:["الإفراط فيه قد يسبب حرقة معدة لبعض الأشخاص","يُنصح بالاعتدال أثناء الحمل"] } },
+    { name:"القرنفل", icon:"stick", color:"#4A2E1E",
+      info:{ benefits:["يُستخدم تقليديًا لتخفيف ألم الأسنان الموضعي","مضاد طبيعي للبكتيريا","منشط للدورة الدموية ودافئ للجسم"],
+             usage:"تُغلى بضع حبات منه في الماء وتُشرب دافئة، أو تُضاف للشاي والحلويات ومشروبات الشتاء.",
+             caution:["زيته المركّز لا يُستخدم مباشرة على اللثة دون تخفيف","الإفراط فيه قد يؤثر على سيولة الدم"] } },
+    { name:"الشيح", icon:"sprig", color:"#6B7B3B",
+      info:{ benefits:["يُستخدم تقليديًا لتنشيط الهضم","طارد للغازات ومهدئ للمعدة بكميات قليلة"],
+             usage:"تُغلى كمية صغيرة منه في الماء وتُشرب دافئة، ويُفضّل عدم الإكثار منه أو تكراره يوميًا.",
+             caution:["يُمنع تمامًا على الحوامل والمرضعات","لا يُستخدم لفترات طويلة أو بكميات كبيرة لاحتوائه على مواد قد تكون سامة بالجرعات العالية","يُمنع للأطفال"] } },
+    { name:"الخزامى (اللافندر)", icon:"flower", color:"#8C72B0",
+      info:{ benefits:["يساعد على الاسترخاء والنوم الهادئ","مهدئ للأعصاب والتوتر","رائحته عطرية ومريحة للمزاج"],
+             usage:"تُنقع أزهاره في ماء ساخن وتُشرب كمشروب مهدئ مساءً، أو تُستخدم رائحته للاسترخاء.",
+             caution:["يُنصح بالاعتدال أثناء الحمل","قد يسبب نعاسًا فيُجنّب قبل قيادة السيارات أو تشغيل الآلات"] } },
+    { name:"حبة البركة", icon:"powder", color:"#2B2B2B",
+      info:{ benefits:["تُستخدم تقليديًا لدعم المناعة","مضادة للأكسدة والالتهابات","تدعم صحة الجهاز الهضمي والتنفسي"],
+             usage:"تؤخذ مطحونة مع العسل، أو تُضاف للخبز والأطعمة، أو تُغلى وتُشرب كمشروب دافئ.",
+             caution:["يُنصح بالاعتدال أثناء الحمل","قد تتفاعل مع أدوية ضغط الدم وسيولة الدم","يُستشار الطبيب عند تناول أدوية بانتظام"] } },
+    { name:"عرق السوس", icon:"root", color:"#C9A26B",
+      info:{ benefits:["يهدئ السعال والتهاب الحلق تقليديًا","مفيد لبعض اضطرابات المعدة الخفيفة"],
+             usage:"يُنقع أو يُغلى في الماء ويُشرب باعتدال، ويُفضّل عدم تكراره يوميًا لفترات طويلة.",
+             caution:["يُمنع لمرضى ضغط الدم المرتفع لأنه قد يرفعه","يُمنع على الحوامل","قد يتفاعل مع أدوية القلب وبعض مدرات البول"] } },
+    { name:"الكركديه", icon:"flower", color:"#8C3B2B",
+      info:{ benefits:["يُستخدم تقليديًا كمشروب منعش وغني بمضادات الأكسدة","له تأثير مساعد على خفض ضغط الدم المرتفع لدى البعض"],
+             usage:"يُنقع أو يُغلى في الماء ويُشرب ساخنًا أو باردًا حسب الرغبة.",
+             caution:["يُمنع أو يُقلَّل لمرضى ضغط الدم المنخفض","يُنصح بالحذر أثناء الحمل","قد يتفاعل مع أدوية ضغط الدم — يُستشار الطبيب"] } },
+    { name:"الزعرور", icon:"round", color:"#A83232",
+      info:{ benefits:["يُستخدم تقليديًا لدعم صحة القلب والدورة الدموية","غني بمضادات الأكسدة"],
+             usage:"تُغلى ثماره المجففة في الماء وتُشرب كمشروب دافئ، أو تدخل في بعض المستحضرات العشبية.",
+             caution:["يتفاعل مع أدوية القلب وضغط الدم — لا يُستخدم دون استشارة طبيب لمن يتناول هذه الأدوية","يُنصح بالحذر أثناء الحمل"] } },
+    { name:"الخروب", icon:"bean", color:"#4A2E1E",
+      info:{ benefits:["يُستخدم تقليديًا لتهدئة المعدة وحالات الإسهال الخفيف","مصدر طبيعي للألياف ومضادات الأكسدة"],
+             usage:"يُنقع مسحوقه في الماء البارد لعدة ساعات ثم يُشرب، أو يُضاف كمُحلٍّ طبيعي للحلويات.",
+             caution:["الإفراط فيه قد يسبب إمساكًا لبعض الأشخاص","يُنصح بمراقبة الكمية لمرضى السكري لاحتوائه على سكريات طبيعية"] } },
+    { name:"المورينجا", icon:"sprig", color:"#5C6B3B",
+      info:{ benefits:["غنية بالفيتامينات والمعادن","تُستخدم تقليديًا كمكمل غذائي داعم للطاقة","مضادة للأكسدة"],
+             usage:"تُضاف أوراقها المجففة المطحونة إلى العصائر والشاي والطعام، أو تُغلى كمشروب.",
+             caution:["يُنصح بالحذر أثناء الحمل","قد تتفاعل مع أدوية السكري وضغط الدم — يُستشار الطبيب عند الاستخدام المنتظم"] } },
+    { name:"أوراق السدر", icon:"sprig", color:"#6B7B3B",
+      info:{ benefits:["تُستخدم تقليديًا لتهدئة فروة الرأس والجسم عند الاستحمام بمنقوعها","لها استخدامات تقليدية عريقة في العناية العامة"],
+             usage:"تُنقع الأوراق المطحونة في ماء دافئ وتُستخدم غسولًا، وتُغلى أحيانًا كمشروب تقليدي خفيف.",
+             caution:["يُجرّب على مساحة صغيرة من الجلد أولًا لتفادي الحساسية","لا تُعتبر بديلًا عن العناية الطبية عند وجود مشاكل جلدية"] } },
+    { name:"البردقوش", icon:"sprig", color:"#7A8C4F",
+      info:{ benefits:["يُستخدم تقليديًا لتنظيم الدورة الشهرية","مهدئ للمعدة وطارد للغازات","رائحته عطرية مهدئة"],
+             usage:"يُنقع في ماء مغلي 5-10 دقائق ويُشرب دافئًا مرة أو مرتين يوميًا.",
+             caution:["يُمنع أثناء الحمل لتأثيره المحتمل على تقلصات الرحم","قد يتفاعل مع أدوية سيولة الدم وأدوية السكري"] } },
+    { name:"القسط الهندي", icon:"root", color:"#8B6B4A",
+      info:{ benefits:["يُستخدم تقليديًا لدعم الجهاز التنفسي والهضمي","له استخدامات عريقة في الطب الشعبي"],
+             usage:"يُستخدم مطحونًا أو يُغلى في الماء ويُشرب حسب الطرق التقليدية المتعارف عليها.",
+             caution:["يُمنع تمامًا على الحوامل والمرضعات","يُنصح باستشارة الطبيب قبل الاستخدام المنتظم لعدم وجود دراسات كافية عن أمانه الكامل"] } },
+    { name:"حصى البان (اللبان الذكر)", icon:"round", color:"#D9A441",
+      info:{ benefits:["يُستخدم تقليديًا كمُعطّر للمنزل عند حرقه","يدخل في بعض الوصفات التقليدية لتهدئة المعدة"],
+             usage:"تُمضغ منه كمية صغيرة أو يُغلى في الماء ويُشرب، ويُستخدم أيضًا للتبخير.",
+             caution:["يُنصح بالاعتدال في الكمية المتناولة","يُستشار الطبيب عند وجود حساسية تنفسية من الدخان الناتج عن حرقه"] } },
+    { name:"اللويزة (حشيشة الليمون)", icon:"sprig", color:"#A8C441",
+      info:{ benefits:["مهدئة للأعصاب وتساعد على النوم","تخفف من اضطرابات المعدة الخفيفة","رائحتها منعشة تشبه الليمون"],
+             usage:"تُنقع أوراقها في ماء ساخن 5 دقائق وتُشرب دافئة مساءً أو بعد الوجبات.",
+             caution:["يُنصح بالاعتدال أثناء الحمل والرضاعة","الإفراط فيها قد يسبب اضطرابًا خفيفًا بالمعدة لدى البعض"] } },
+    { name:"المستكة", icon:"round", color:"#E8DFC0",
+      info:{ benefits:["تُستخدم تقليديًا لتهدئة المعدة والقولون","تعطي نكهة مميزة للحلويات والمشروبات"],
+             usage:"تُطحن مع قليل من السكر وتُضاف للحليب الدافئ أو الحلويات والمشروبات التقليدية.",
+             caution:["يُنصح بالاعتدال في الكمية المستخدمة","استشارة الطبيب لمن يعاني من حصوات المرارة قبل الاستخدام المنتظم"] } },
+    { name:"الرشاد", icon:"powder", color:"#4F7942",
+      info:{ benefits:["يُستخدم تقليديًا لدعم الرضاعة الطبيعية","غني بالحديد ومضادات الأكسدة"],
+             usage:"تُنقع بذوره في الماء حتى تتكوّن هلامة حولها ثم تؤكل مع العسل أو الحليب، أو تُضاف للسلطات.",
+             caution:["يُنصح بتجنب الكميات الكبيرة أثناء الحمل إلا تحت إشراف طبي","الإفراط فيه قد يؤثر على الغدة الدرقية لدى بعض الأشخاص"] } },
+    { name:"السنامكي", icon:"sprig", color:"#7A8C4F",
+      info:{ benefits:["يُستخدم تقليديًا كملين طبيعي خفيف للإمساك العرضي"],
+             usage:"يُستخدم فقط لفترة قصيرة وبكميات قليلة حسب الحاجة، ولا يُفضّل الاعتماد عليه بشكل يومي أو مطوّل.",
+             caution:["يُمنع الاستخدام المطوّل أو اليومي دون إشراف طبيب لاحتمال التعود عليه","يُمنع تمامًا على الحوامل والمرضعات والأطفال دون استشارة طبيب","يُمنع لمن يعاني من انسداد معوي أو أمراض معوية مزمنة"] } },
+    { name:"الزوفا", icon:"sprig", color:"#5C6B3B",
+      info:{ benefits:["يُستخدم تقليديًا لتهدئة السعال واحتقان الصدر","طارد للبلغم بشكل تقليدي"],
+             usage:"يُغلى ملعقة صغيرة منه في الماء وتُشرب دافئة 1-2 مرة يوميًا.",
+             caution:["يُمنع للأطفال الصغار والحوامل والمرضعات إلا باستشارة طبيب","لا يُستخدم لفترات طويلة دون إشراف مختص"] } },
+    { name:"الكزبرة", icon:"powder", color:"#C9A26B",
+      info:{ benefits:["تساعد على الهضم وتخفيف الانتفاخ","غنية بمضادات الأكسدة","تعطي نكهة مميزة للأطباق والمشروبات"],
+             usage:"تُضاف بذورها مطحونة للطعام، أو تُغلى وتُشرب كمشروب هضمي دافئ بعد الوجبات.",
+             caution:["الإفراط فيها قد يسبب انخفاضًا طفيفًا في ضغط الدم","يُنصح بالاعتدال أثناء الحمل"] } },
+  ],
+  nuts: [
+    { name:"اللوز", icon:"round", color:"#C9A26B",
+      info:{ benefits:["غني بالبروتين وفيتامين E","يدعم صحة القلب","وجبة خفيفة صحية ومشبعة"],
+             usage:"يؤكل نيئًا أو محمّصًا كوجبة خفيفة، ويُضاف إلى السلطات والحلويات.",
+             caution:["يُمنع لمن لديه حساسية من المكسرات","الإفراط في الكمية يزيد السعرات الحرارية المتناولة"] } },
+    { name:"الكاجو", icon:"round", color:"#DCC48A",
+      info:{ benefits:["مصدر جيد للمغنسيوم والزنك","يدعم صحة العظام","نكهته الغنية تناسب الأطباق المختلفة"],
+             usage:"يؤكل محمّصًا كوجبة خفيفة، ويُضاف إلى الأطباق الآسيوية والحلويات الشرقية.",
+             caution:["يُمنع لمن لديه حساسية من المكسرات","عالي السعرات — يُفضّل الاعتدال في الكمية"] } },
+    { name:"الجوز", icon:"round", color:"#8B6B4A",
+      info:{ benefits:["غني بأحماض أوميغا 3","يدعم صحة الدماغ والقلب","مصدر جيد للألياف"],
+             usage:"يؤكل نيئًا كوجبة خفيفة، ويُضاف إلى السلطات والشوفان والحلويات.",
+             caution:["قد يسبب حساسية لبعض الأشخاص","يُحفظ في مكان جاف بعيدًا عن الرطوبة لتجنب تزنخه"] } },
+    { name:"الفستق", icon:"round", color:"#7A8C4F",
+      info:{ benefits:["غني بالبروتين والألياف","يعزز الشعور بالشبع","مصدر جيد لمضادات الأكسدة"],
+             usage:"يؤكل محمّصًا كوجبة خفيفة، أو يُضاف إلى الحلويات الشرقية والمكسرات المشكّلة.",
+             caution:["يُمنع لمن لديه حساسية من المكسرات","الفستق المملّح لا يناسب الإفراط فيه لمرضى ضغط الدم"] } },
+    { name:"بن عربي", icon:"bean", color:"#4A2E1E",
+      info:{ benefits:["مصدر للطاقة والتنبيه الذهني","غني بمضادات الأكسدة","نكهة مميزة مع الهيل"],
+             usage:"يُحمّص ويُطحن، ثم يُغلى مع الماء والهيل (الحبهان) ويُقدّم في فناجين صغيرة.",
+             caution:["الإفراط فيه قد يسبب الأرق أو زيادة ضربات القلب","يُنصح بالاعتدال للحوامل ومرضى القلب والقلق"] } },
+    { name:"بن تركي", icon:"cup", color:"#4A2E1E",
+      info:{ benefits:["مصدر للطاقة والتنبيه","نكهة غنية وطقوس تقديم مميزة"],
+             usage:"يُطحن ناعمًا جدًا ويُغلى مع الماء والسكر حسب الرغبة، ويُقدّم في فناجين صغيرة مع رغوته.",
+             caution:["الإفراط فيه قد يسبب الأرق أو حموضة المعدة","يُنصح بالاعتدال لمرضى القلب والقلق والحوامل"] } },
+  ]
+};
+
+function iconSVG(type, c){
+  switch(type){
+    case 'bottle': return `<svg viewBox="0 0 100 100"><rect x="38" y="16" width="24" height="14" rx="3" fill="#2B1D14"/><path d="M40 30 L40 39 Q29 46 29 62 Q29 82 50 82 Q71 82 71 62 Q71 46 60 39 L60 30 Z" fill="${c}" stroke="#2B1D14" stroke-width="2.5"/><rect x="42" y="28" width="16" height="6" fill="#2B1D14" opacity="0.55"/><ellipse cx="42" cy="58" rx="4" ry="9" fill="#fff" opacity="0.25"/></svg>`;
+    case 'sprig': return `<svg viewBox="0 0 100 100"><path d="M50 88 L50 22" stroke="${c}" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="36" cy="34" rx="12" ry="6.5" fill="${c}" transform="rotate(-32 36 34)"/><ellipse cx="64" cy="34" rx="12" ry="6.5" fill="${c}" transform="rotate(32 64 34)"/><ellipse cx="33" cy="53" rx="12" ry="6.5" fill="${c}" transform="rotate(-30 33 53)"/><ellipse cx="67" cy="53" rx="12" ry="6.5" fill="${c}" transform="rotate(30 67 53)"/><ellipse cx="50" cy="26" rx="8" ry="12" fill="${c}"/></svg>`;
+    case 'flower': return `<svg viewBox="0 0 100 100">${[0,60,120,180,240,300].map(a=>`<ellipse cx="50" cy="30" rx="8" ry="17" fill="#FBF6EA" stroke="${c}" stroke-width="2" transform="rotate(${a} 50 50)"/>`).join('')}<circle cx="50" cy="50" r="11" fill="${c}"/></svg>`;
+    case 'root': return `<svg viewBox="0 0 100 100"><path d="M36 28 Q28 48 39 58 Q33 70 44 82 Q55 88 61 76 Q73 71 66 54 Q78 43 66 30 Q60 19 49 26 Q43 18 36 28Z" fill="${c}" stroke="#2B1D14" stroke-width="2.5"/></svg>`;
+    case 'powder': return `<svg viewBox="0 0 100 100"><path d="M18 74 Q50 52 82 74 Q82 83 18 83Z" fill="${c}"/>${[[30,66],[43,60],[57,59],[68,64],[48,68]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.2" fill="${c}" opacity="0.7"/>`).join('')}</svg>`;
+    case 'stick': return `<svg viewBox="0 0 100 100"><g transform="rotate(18 50 50)"><rect x="28" y="18" width="11" height="62" rx="5.5" fill="${c}" stroke="#2B1D14" stroke-width="1.5"/><rect x="48" y="18" width="11" height="62" rx="5.5" fill="${c}" stroke="#2B1D14" stroke-width="1.5" opacity="0.88"/><rect x="65" y="24" width="9" height="52" rx="4.5" fill="${c}" stroke="#2B1D14" stroke-width="1.5" opacity="0.72"/></g></svg>`;
+    case 'round': return `<svg viewBox="0 0 100 100"><ellipse cx="37" cy="56" rx="17" ry="21" fill="${c}" stroke="#2B1D14" stroke-width="2.2"/><ellipse cx="66" cy="45" rx="15" ry="19" fill="${c}" stroke="#2B1D14" stroke-width="2.2" opacity="0.88"/><ellipse cx="52" cy="72" rx="14" ry="17" fill="${c}" stroke="#2B1D14" stroke-width="2.2" opacity="0.94"/></svg>`;
+    case 'bean': return `<svg viewBox="0 0 100 100"><ellipse cx="38" cy="50" rx="15" ry="21" fill="${c}" transform="rotate(-20 38 50)"/><path d="M38 32 Q38 50 38 68" stroke="#1a1008" stroke-width="2.2" fill="none" transform="rotate(-20 38 50)"/><ellipse cx="65" cy="56" rx="15" ry="21" fill="${c}" transform="rotate(15 65 56)" opacity="0.9"/><path d="M65 38 Q65 56 65 74" stroke="#1a1008" stroke-width="2.2" fill="none" transform="rotate(15 65 56)"/></svg>`;
+    case 'cup': return `<svg viewBox="0 0 100 100"><path d="M28 22 Q26 48 33 54 L67 54 Q74 48 72 22Z" fill="${c}"/><path d="M72 30 Q88 30 85 44 Q81 55 69 53" fill="none" stroke="${c}" stroke-width="4.5"/><ellipse cx="50" cy="22" rx="22" ry="4.5" fill="${c}" opacity="0.75"/><path d="M39 12 Q41 6 39 0 M50 12 Q52 6 50 0 M61 12 Q63 6 61 0" stroke="${c}" stroke-width="2.2" fill="none" opacity="0.5"/></svg>`;
+    case 'soap': return `<svg viewBox="0 0 100 100"><rect x="18" y="34" width="64" height="38" rx="10" fill="${c}" stroke="#2B1D14" stroke-width="2.5"/><ellipse cx="50" cy="34" rx="32" ry="7" fill="${c}" opacity="0.9" stroke="#2B1D14" stroke-width="1.5"/><path d="M30 50 Q50 44 70 50" stroke="#fff" stroke-width="2" fill="none" opacity="0.35"/></svg>`;
+    case 'jar': return `<svg viewBox="0 0 100 100"><rect x="26" y="38" width="48" height="42" rx="8" fill="#FBF6EA" stroke="#2B1D14" stroke-width="2.5"/><rect x="22" y="24" width="56" height="16" rx="6" fill="${c}" stroke="#2B1D14" stroke-width="2.5"/><rect x="34" y="50" width="32" height="9" rx="3" fill="${c}" opacity="0.85"/></svg>`;
+    default: return `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="${c}"/></svg>`;
+  }
+}
+
+function renderGrid(sectionKey, gridId){
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = PRODUCTS[sectionKey].map((item, i) => `
+    <div class="card" style="border-top:3px solid ${item.color};" onclick="openDetail('${sectionKey}', ${i})">
+      <div class="img-wrap">${ item.img ? `<img src="${item.img}" alt="${item.name}" loading="lazy">` : iconSVG(item.icon, item.color) }</div>
+      <div class="info">
+        <p class="name">${item.name}</p>
+        <span class="more">الفوائد والاستخدام ⟵</span>
+      </div>
+    </div>
+  `).join('');
+}
+renderGrid('oils_body','grid-oils-body');
+renderGrid('oils_hair','grid-oils-hair');
+renderGrid('soaps','grid-soaps');
+renderGrid('haircare','grid-haircare');
+renderGrid('herbs','grid-herbs');
+renderGrid('nuts','grid-nuts');
+
+function showPage(key){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+key).classList.add('active');
+  document.querySelector(`nav.tabs button[data-tab="${key}"]`).classList.add('active');
+  history.replaceState(null,'','#'+key);
+}
+
+window.addEventListener('DOMContentLoaded', ()=>{
+  const hash = location.hash.replace('#','');
+  if(['oils','herbs','nuts'].includes(hash)) showPage(hash);
+});
+
+function shade(hex, percent){
+  const f = parseInt(hex.slice(1),16), t = percent<0?0:255, p = percent<0?percent*-1:percent;
+  const R = f>>16, G = f>>8&0x00FF, B = f&0x0000FF;
+  return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+}
+
+function openDetail(sectionKey, i){
+  const item = PRODUCTS[sectionKey][i];
+  const accent = shade(item.color, -0.42);
+  const modal = document.getElementById('detailModal');
+  modal.innerHTML = `
+    <div class="detail-head" style="border-color:${item.color};">
+      <div class="d-icon" style="background:${item.color}22;">${ item.img ? `<img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">` : iconSVG(item.icon, item.color) }</div>
+      <h3 style="color:${accent};">${item.name}</h3>
+    </div>
+    <div class="detail-body">
+      <div class="detail-section benefits">
+        <h4 style="color:${accent};"><span class="sw" style="background:${item.color};"></span> الفوائد</h4>
+        <ul>${item.info.benefits.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>
+      <div class="detail-section usage" style="border-right:3px solid ${item.color};">
+        <h4 style="color:${accent};"><span class="sw" style="background:${item.color};"></span> طريقة الاستخدام</h4>
+        <p>${item.info.usage}</p>
+      </div>
+      <div class="detail-section caution">
+        <h4><span class="sw"></span> موانع الاستخدام والتنبيهات</h4>
+        <ul>${item.info.caution.map(c=>`<li>${c}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <p class="detail-note">هذه المعلومات لأغراض تعريفية عامة ولا تُعتبر نصيحة طبية أو بديلًا عنها. يُرجى استشارة الطبيب أو المختص قبل الاستخدام، خصوصًا للحوامل والمرضعات وأصحاب الأمراض المزمنة أو من يتناولون أدوية بشكل منتظم.</p>
+    <button class="close" onclick="closeDetail()">إغلاق</button>
+  `;
+  document.getElementById('detailOverlay').classList.add('show');
+}
+function closeDetail(){ document.getElementById('detailOverlay').classList.remove('show'); }
+document.getElementById('detailOverlay').addEventListener('click', e=>{
+  if(e.target.id==='detailOverlay') closeDetail();
+});
+
+function openQR(){
+  document.getElementById('qrOverlay').classList.add('show');
+  const box = document.getElementById('qrcode');
+  box.innerHTML = '';
+  new QRCode(box, {
+    text: window.location.href.split('#')[0],
+    width: 190,
+    height: 190,
+    colorDark: "#2B1D14",
+    colorLight: "#FBF6EA",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+}
+function closeQR(){ document.getElementById('qrOverlay').classList.remove('show'); }
+document.getElementById('qrOverlay').addEventListener('click', e=>{
+  if(e.target.id==='qrOverlay') closeQR();
+});
+</script>
+
+</body>
+</html>
